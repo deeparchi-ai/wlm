@@ -1,0 +1,29 @@
+# WLM Service Policy
+# Goal-oriented resource allocation following IBM z/OS WLM semantics.
+#
+# Each service class defines:
+#   - name: human-readable identifier
+#   - cgroup: absolute path under /sys/fs/cgroup/
+#   - goal: performance objective (response_time, throughput, velocity)
+#   - importance: 1 (highest) to 5 (lowest) — used when resources are constrained
+#   - min_weight: floor for cpu.weight (1-10000)
+#   - max_weight: ceiling for cpu.weight (1-10000)
+
+service_classes:
+  - name: "interactive"
+    cgroup: "/wlm-demo/interactive"
+    goal:
+      type: "response_time"
+      target: "2s"
+    importance: 1
+    min_weight: 10
+    max_weight: 1000
+
+  - name: "batch"
+    cgroup: "/wlm-demo/batch"
+    goal:
+      type: "velocity"
+      target: ""
+    importance: 3
+    min_weight: 1
+    max_weight: 900

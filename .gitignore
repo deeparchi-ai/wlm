@@ -1,0 +1,14 @@
+# Binaries
+wlmd
+*.test
+*.out
+
+# Go
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Test artifacts
