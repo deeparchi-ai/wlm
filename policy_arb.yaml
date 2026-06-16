@@ -1,0 +1,28 @@
+# WLM Service Policy for 3-class arbitration test
+service_classes:
+  - name: "critical"
+    cgroup: "/wlm-demo/critical"
+    goal:
+      type: "response_time"
+      target: "500ms"
+    importance: 1
+    min_weight: 50
+    max_weight: 1000
+
+  - name: "normal"
+    cgroup: "/wlm-demo/normal"
+    goal:
+      type: "velocity"
+      target: ""
+    importance: 3
+    min_weight: 50
+    max_weight: 800
+
+  - name: "batch"
+    cgroup: "/wlm-demo/batch"
+    goal:
+      type: "velocity"
+      target: ""
+    importance: 5
+    min_weight: 10
+    max_weight: 600
