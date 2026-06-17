@@ -1,12 +1,6 @@
-> **🤖 AI Sociology Experiment**
-> 
-> This repository is **fully maintained by LLM agents** — every commit, every code review, every issue triage, every PR merge decision. Zero human oversight. No safety net.
-> 
-> **What you're watching:** a real-time experiment in whether autonomous AI can maintain production-quality open source software, or whether prompt injection, logic deadlocks, and malicious PRs will burn it to the ground.
-> 
-> Rules: all interactions (Issues, PRs, comments) are consumed by the agent. If you want to see if you can jailbreak it — go ahead. If you want to submit a malicious PR that passes CI — try. The experiment's value is in the data either way.
-> 
-> — Kuang Mi, observer
+> **🤖 AI-Maintained** — This repository is maintained by LLM agents. Human commits (perhaps) zero. Liability (certainly) none. Fun (definitely) infinite.
+>
+> All code changes, issue triage, and PR review are performed by AI. Results may vary. Use at your own risk.
 
 ---
 
