@@ -1,0 +1,42 @@
+# Token budget policy — budget_cycle defines the tracking period (default 24h).
+# The arbitration interval (--interval flag) controls how often we check,
+# but budget resets ONLY at cycle end.
+# IMPORTANT: model_weights are manual and must be updated when API pricing changes.
+mode: token
+budget_cycle: 24h
+service_classes:
+  - name: "arch-guardian"
+    cgroup: "/wlm-demo/placeholder"
+    goal:
+      type: "token_budget"
+    importance: 1
+    daily_budget: 400000
+    min_budget: 100000
+    model_weights:
+      claude-opus: 15.0
+      claude-sonnet: 3.0
+      claude-haiku: 1.0
+
+  - name: "coding-agent"
+    cgroup: "/wlm-demo/placeholder"
+    goal:
+      type: "token_budget"
+    importance: 3
+    daily_budget: 300000
+    min_budget: 50000
+    model_weights:
+      claude-opus: 15.0
+      claude-sonnet: 3.0
+      claude-haiku: 1.0
+
+  - name: "research-agent"
+    cgroup: "/wlm-demo/placeholder"
+    goal:
+      type: "token_budget"
+    importance: 5
+    daily_budget: 200000
+    min_budget: 10000
+    model_weights:
+      claude-opus: 15.0
+      claude-sonnet: 3.0
+      claude-haiku: 1.0
