@@ -18,6 +18,7 @@ const (
 	GoalResponseTime GoalType = "response_time" // p99 latency target
 	GoalThroughput   GoalType = "throughput"    // rate target
 	GoalVelocity     GoalType = "velocity"      // best-effort, don't starve
+	GoalTokenBudget  GoalType = "token_budget"  // token budget per cycle
 )
 
 // ServiceClass defines a workload with a performance goal and importance.
@@ -29,6 +30,11 @@ type ServiceClass struct {
 	Importance int           `yaml:"importance"` // 1=highest, 5=lowest
 	MinWeight  uint32        `yaml:"min_weight"` // floor for cpu.weight
 	MaxWeight  uint32        `yaml:"max_weight"` // ceiling for cpu.weight
+
+	// Token-specific fields (only used when goal.type == "token_budget")
+	DailyBudget  uint32             `yaml:"daily_budget,omitempty"`  // max weighted tokens per budget cycle
+	MinBudget    uint32             `yaml:"min_budget,omitempty"`    // floor — cannot be taken below this
+	ModelWeights map[string]float64 `yaml:"model_weights,omitempty"` // model → cost multiplier
 }
 
 // GoalSpec defines one performance objective.
@@ -48,6 +54,7 @@ func (g GoalSpec) Duration() (time.Duration, error) {
 // Policy is the top-level WLM configuration.
 type Policy struct {
 	ServiceClasses []ServiceClass `yaml:"service_classes"`
+	BudgetCycle    string         `yaml:"budget_cycle,omitempty"` // "24h" (default), budget tracking period
 }
 
 // Load reads a policy from a YAML file.
@@ -81,7 +88,7 @@ func (p *Policy) Validate() error {
 		if sc.Importance < 1 || sc.Importance > 5 {
 			return fmt.Errorf("importance must be 1-5 for %q", sc.Name)
 		}
-		if sc.Goal.Type != GoalResponseTime && sc.Goal.Type != GoalThroughput && sc.Goal.Type != GoalVelocity {
+		if sc.Goal.Type != GoalResponseTime && sc.Goal.Type != GoalThroughput && sc.Goal.Type != GoalVelocity && sc.Goal.Type != GoalTokenBudget {
 			return fmt.Errorf("unsupported goal type %q for %q", sc.Goal.Type, sc.Name)
 		}
 	}
